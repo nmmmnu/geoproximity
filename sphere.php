@@ -1,17 +1,10 @@
 <?php
 
 trait GeoMath{
-	protected static $LAT_SIZE	= 2 *  90;	//  -90 to  +90
-	protected static $LON_SIZE	= 2 * 180;	// -180 to +180
-
-	private static $DEG_RAD		= M_PI / 180;
+	private static $DEG_RAD_	= M_PI / 180;
 
 	public static function rad($deg){
-		return $deg * self::$DEG_RAD;
-	}
-
-	public static function cos($a){
-		return cos(self::rad($a));
+		return $deg * self::$DEG_RAD_;
 	}
 
 	public static function square($a){
@@ -21,6 +14,9 @@ trait GeoMath{
 
 class GeoSphere{
 	use GeoMath;
+
+	private static $LAT_SIZE	= 2 *  90;	//  -90 to  +90
+	private static $LON_SIZE	= 2 * 180;	// -180 to +180
 
 	private $radius_;
 
@@ -37,7 +33,7 @@ class GeoSphere{
 	}
 
 	public function parallelSegment($latitude){
-		return self::cos($latitude) * $this->equator_segment_;
+		return cos(self::rad($latitude)) * $this->equator_segment_;
 	}
 
 	public function equator(){
@@ -104,5 +100,6 @@ class EarthSphere extends GeoSphere{
 		parent::__construct(self::RADIUS);
 	}
 }
+
 
 
