@@ -66,7 +66,8 @@ class GeoSphere{
 		$dLon = abs($lon1 - $lon2);
 
 		$segment = $precise ?
-				$this->parallelSegment( $lat1 + ($lat2 - $lat1) / 2 ) :
+				$this->parallelSegment( min($lat1, $lat2) + $dlat / 2 )
+				:
 				$this->equator_segment_;
 
 		$x = $dLon * $segment;
