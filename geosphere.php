@@ -15,8 +15,8 @@ trait GeoMath{
 class GeoSphere{
 	use GeoMath;
 
-	private static $LAT_SIZE	= 2 *  90;	//  -90 to  +90
-	private static $LON_SIZE	= 2 * 180;	// -180 to +180
+	public static $LAT_SIZE	= 2 *  90;	//  -90 to  +90
+	public static $LON_SIZE	= 2 * 180;	// -180 to +180
 
 	private $radius_;
 
