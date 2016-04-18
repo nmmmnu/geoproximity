@@ -13,10 +13,7 @@ foreach($coord as & $c){
 unset($c);
 
 uasort($coord, function($a, $b){
-	if ($a["hash"] == $b["hash"])
-		return 0;
-
-	return $a["hash"] < $b["hash"] ? -1: +1;
+	return compare_($a["hash"], $b["hash"]);
 });
 
 foreach($coord as $c){
@@ -27,5 +24,16 @@ foreach($coord as $c){
 		$c["hash"],
 		$c["hash"]
 	);
+}
+
+
+
+
+
+function compare_($a, $b){
+	if ($a == $b)
+		return 0;
+
+	return $a < $b ? -1: +1;
 }
 
