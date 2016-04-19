@@ -13,7 +13,7 @@ foreach($coord as & $c){
 unset($c);
 
 uasort($coord, function($a, $b){
-	return compare_($a["hash"], $b["hash"]);
+	return cmp_($a["hash"], $b["hash"]);
 });
 
 foreach($coord as $c){
@@ -26,11 +26,60 @@ foreach($coord as $c){
 	);
 }
 
+$cities = [
+	"Sofia",
+	"Bourgas",
+	"Pleven",
+
+	"Bonn",
+	"Bonn",
+	"Berlin",
+
+	"Libourne, FR",
+	"Bergerac, FR",
+];
+
+$spere = new EarthSphere();
+
+$km = 150;
+
+foreach($cities as $city){
+	$city_c = $coord[ $city ];
+
+	$bb = geoBoundingBox( $spere, $city_c["lat"], $city_c["lon"], $km );
+
+	printf("%-14s\n", $city);
+//	print_r($bb);
+
+	$a = array_unique(
+		find_($coord, $bb[0], $bb[1]) +
+		find_($coord, $bb[2], $bb[3]) +
+		find_($coord, $bb[4], $bb[5])
+	);
+
+	print_r($a);
+}
 
 
 
 
-function compare_($a, $b){
+function find_( & $coordinates, $min, $max){
+	$a = [];
+	foreach($coordinates as $c){
+		//print_r($c);
+
+		if (between_($c["hash"], $min, $max))
+			$a[] = $c["name"];
+	}
+
+	return $a;
+}
+
+function between_($a, $min, $max){
+	return $a >= $min && $a <= $max;
+}
+
+function cmp_($a, $b){
 	if ($a == $b)
 		return 0;
 

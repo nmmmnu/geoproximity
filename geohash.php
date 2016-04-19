@@ -76,3 +76,31 @@ class GeoHash{
 
 }
 
+function geoBoundingBox(GeoSphere $sphere, $lat, $lon, $km){
+	$hash = new GeoHash();
+//	$h = $hash($lat, $lon);
+
+	$lenLat = $km / $sphere->meridianSegment();
+	$lenLon = $km / $sphere->parallelSegment($lon);
+
+	$hlen  = $hash($lenLat, $lenLon);
+
+	$h0  = $hash($lat, $lon);
+	$h01 = $h0 - $hlen;
+	$h02 = $h0 + $hlen;
+
+	$h1 = $hash($lat - $lenLat, $lon - $lenLon);
+	$h11 = $h1 - $hlen;
+	$h12 = $h1 + $hlen;
+
+	$h2 = $hash($lat + $lenLat, $lon + $lenLon);
+	$h21 = $h2 - $hlen;
+	$h22 = $h2 + $hlen;
+
+	return [
+		$h01, $h02,
+		$h11, $h12,
+		$h21, $h22,
+	];
+}
+
